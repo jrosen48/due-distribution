@@ -1,0 +1,12 @@
+name: due-distribution
+title: due-distribution
+username:
+account: jmichaelrosenberg
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 266516
+bundleId: 1200035
+url: https://jmichaelrosenberg.shinyapps.io/due-distribution/
+when: 1517353493.02427
+asMultiple: FALSE
+asStatic: FALSE

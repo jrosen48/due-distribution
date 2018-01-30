@@ -1,9 +1,10 @@
 library(shiny)
+library(stringr)
+library(lubridate)
+library(ggplot2)
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
-    
-    shinythemes::shinytheme("cerulean"),
+ui <- fluidPage(theme = shinythemes::shinytheme("cerulean"),
     
     # Application title
     titlePanel("Due distribution calculator"),
@@ -21,7 +22,10 @@ ui <- fluidPage(
         # Show a plot of the generated distribution
         mainPanel(
             plotOutput("distPlot"),
-            p("Default standard deviation based on this resource here: https://spacefem.com/pregnant/charts/duedate0.php")
+            p(),
+            p("Default standard deviation based on this resource here: https://spacefem.com/pregnant/charts/duedate0.php"),
+            p("Source code here: https://github.com/jrosen48/due-distribution"),
+            p("Created by Joshua Rosenberg and Alex Lishinski")
         )
     )
 )
@@ -39,7 +43,6 @@ create_plot <- function(due_date, my_sd) {
     pcts_cum <- as.numeric(str_sub(due_dist$By.this.date.overall, 1, -3)) * .01
     due_dist$pcts_day <- mapply(FUN = cprob, x = 1 - pcts_cum, y = pcts, xy = 1.00)
     
-    library(lubridate)
     due_date <- anytime::anydate(due_date)
     date_today <- Sys.Date()
     diff <- date_today - due_date
@@ -49,8 +52,6 @@ create_plot <- function(due_date, my_sd) {
     pr <- round(due_dist[which(due_dist$Progress == "40W0D") + n_days@day, "pcts_day"], digits = 3)
     
     data = data.frame(x = c(-35, 35))
-    
-    library(ggplot2)
     
     p <- ggplot(data, aes(x)) +
         stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = my_sd)) +
