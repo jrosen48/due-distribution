@@ -53,22 +53,39 @@ create_plot <- function(due_date, my_sd) {
     
     data = data.frame(x = c(-35, 35))
     
-    p <- ggplot(data, aes(x)) +
-        stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = my_sd)) +
-        scale_x_continuous() +
-        xlab("Days before or after due date") +
-        geom_vline(xintercept = diff, color = "red") +
-        geom_text(aes(label = paste0("Pr(Baby born on today's date) = ",
-                                     round(pr, 3)),
-                      y = .005,
-                      x = 1,
-                      color = "red",
-                      size = 24)) +
-        theme_bw() +
-        theme(legend.position = "none", text = element_text(size = 16)) +
-        ylab("Pr(Baby born)")
+    # p <- ggplot(data, aes(x)) +
+    #     stat_function(fun = dnorm, n = 1000, args = list(mean = 0, sd = my_sd)) +
+    #     scale_x_continuous() +
+    #     xlab("Days before or after due date") +
+    #     geom_vline(xintercept = diff, color = "red") +
+    #     geom_text(aes(label = paste0("Pr(Baby born on today's date) = ",
+    #                                  round(pr, 3)),
+    #                   y = .005,
+    #                   x = 1,
+    #                   color = "red",
+    #                   size = 24)) +
+    #     theme_bw() +
+    #     theme(legend.position = "none", text = element_text(size = 16)) +
+    #     ylab("Pr(Baby born)")
+    # 
+    # p
+    
+    p <- qplot(x = days_to_due, y = pcts_day, data = due_dist) +
+      scale_x_continuous() +
+      xlab("Days before or after due date") +
+      geom_vline(xintercept = diff, color = "red") +
+      geom_text(aes(label = paste0("Pr(Baby born on today's date) = ",
+                                   round(pr, 3)),
+                    y = .005,
+                    x = 1,
+                    color = "red",
+                    size = 24)) +
+      theme_bw() +
+      theme(legend.position = "none", text = element_text(size = 16)) +
+      ylab("Pr(Baby born today)")
     
     p
+    
     
 }
 
